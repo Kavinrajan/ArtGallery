@@ -16,5 +16,5 @@
     <string name="message_no_network_connected_str">No network connected!</string>
     <string name="message_something_went_wrong_str">Something went wrong!</string>
     <string name="message_search_results_for_str">Search results for %1s</string>
-
+    <string name="view_image">Click View Photo Details</string>
 </resources>
