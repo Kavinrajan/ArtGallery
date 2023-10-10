@@ -241,6 +241,9 @@ dependencies {
     implementation "io.coil-kt:coil:1.1.1"
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
+    implementation 'com.adobe.marketing.mobile:sdk-core:1.+'
+    implementation 'com.adobe.marketing.mobile:analytics:1.+'
+
     // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
