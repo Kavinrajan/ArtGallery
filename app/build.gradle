@@ -230,12 +230,12 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
 
     // Third-party
     implementation 'com.google.android:flexbox:2.0.1'
