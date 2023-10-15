@@ -9,6 +9,7 @@ plugins {
     id 'com.diffplug.spotless'
     id 'com.vanniktech.android.junit.jacoco'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 /*def v_code = null
@@ -230,6 +231,7 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.9'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
