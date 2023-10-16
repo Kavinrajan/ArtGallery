@@ -232,6 +232,7 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.9'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.0.1'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
