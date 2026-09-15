@@ -1,8 +1,4 @@
-include ':app'
-rootProject.name = "ArtGallery"
-
-
-/*pluginManagement {
+pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
@@ -14,5 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://www.jitpack.io' }
     }
-}*/
+}
+
+include ':app'
+rootProject.name = 'ArtGallery'

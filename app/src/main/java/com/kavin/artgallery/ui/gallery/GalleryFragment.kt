@@ -125,6 +125,14 @@ class GalleryFragment: BaseFragment<GalleryFragmentBinding>() {
                         viewModel.retry()
                     }
                 }
+                is ContentNextPageState -> {
+                    bi.progressPhotos.gone()
+                }
+                is EmptyState -> {
+                    bi.progressPhotos.gone()
+                    bi.recyclerPopularPhotos.gone()
+                }
+                else -> {}
             }
         }
 
