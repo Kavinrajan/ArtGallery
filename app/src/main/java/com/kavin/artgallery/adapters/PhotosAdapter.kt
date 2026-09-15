@@ -29,10 +29,10 @@ class PhotosAdapter(val onPhotoSelected: (photo: PhotoModel, position: Int) -> U
     private val photoItems: ArrayList<PhotoModel> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        var binding = PhotoItemLayoutBinding.inflate(
+        val binding = PhotoItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false
+            false,
         )
         return PhotoViewHolder(binding)
     }
@@ -54,7 +54,7 @@ class PhotosAdapter(val onPhotoSelected: (photo: PhotoModel, position: Int) -> U
             itemBinding.apply {
                 imgPhoto.load(photoModel.urls?.thumb) {
                     placeholder(R.color.color_box_background)
-                    crossfade(true)
+                    crossfade(enable = true)
                 }
                 cardPhoto.setOnClickListener {
                     onPhotoSelected(photoModel, position)
