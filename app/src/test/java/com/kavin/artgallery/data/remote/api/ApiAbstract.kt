@@ -1,4 +1,4 @@
-package com.com.kavin.artgallery.data.remote.api
+package com.kavin.artgallery.data.remote.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kavin.artgallery.data.remote.ApiResponseCallAdapterFactory

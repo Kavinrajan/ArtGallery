@@ -1,4 +1,4 @@
-package com
+package com.kavin.artgallery
 
 import com.kavin.artgallery.data.response.SearchPhotosResponse
 import com.kavin.artgallery.data.usecases.SearchPhotosUsecase

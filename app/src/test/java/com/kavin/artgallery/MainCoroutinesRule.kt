@@ -1,4 +1,4 @@
-package com.com.kavin.artgallery
+package com.kavin.artgallery
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

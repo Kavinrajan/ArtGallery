@@ -1,6 +1,5 @@
-package com.com.kavin.artgallery.data.remote
+package com.kavin.artgallery.data.remote
 
-import com.kavin.artgallery.data.remote.ApiResponse
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.After
