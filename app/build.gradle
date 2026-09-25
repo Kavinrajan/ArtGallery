@@ -9,6 +9,13 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+kapt {
+    javacOptions {
+        option("-source", "17")
+        option("-target", "17")
+    }
+}
+
 /*def v_code = null
 def v_name = null
 def releaseID = "yes"
@@ -20,6 +27,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('config.prop').newDataInputStream())*/
 
 android {
+    buildToolsVersion "33.0.2"
     namespace 'com.kavin.artgallery'
     compileSdk 35
 
