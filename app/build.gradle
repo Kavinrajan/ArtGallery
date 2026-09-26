@@ -26,6 +26,12 @@ boolean invalidateBuildVariant = false
 Properties properties = new Properties()
 properties.load(project.rootProject.file('config.prop').newDataInputStream())*/
 
+// Make apiId optional for CI builds (e.g., pull requests from forks without secrets)
+def apiId = providers.gradleProperty("apiId").orElse("").get()
+def escapedApiId = apiId
+        .replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+
 android {
     buildToolsVersion "33.0.2"
     namespace 'com.kavin.artgallery'
@@ -44,64 +50,64 @@ android {
     }
 
     /*if (project.hasProperty("verCode") && project.hasProperty("verName")) {
-        v_code = verCode
-        v_name = verName
-    }
+         v_code = verCode
+         v_name = verName
+     }
 
-    if (project.hasProperty("RELEASE")) {
-        releaseID = RELEASE
-    }
+     if (project.hasProperty("RELEASE")) {
+         releaseID = RELEASE
+     }
 
-    if (project.hasProperty("demoapp")) {
-        IS_DEMO_APP = demoapp
-    }*/
+     if (project.hasProperty("demoapp")) {
+         IS_DEMO_APP = demoapp
+     }*/
 
     buildTypes {
         debug {
             testCoverageEnabled true
-            buildConfigField "String", "API_ID", "\"${project.apiId}\""
+            buildConfigField "String", "API_ID", "\"${escapedApiId}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_ID", "\"${project.apiId}\""
+            buildConfigField "String", "API_ID", "\"${escapedApiId}\""
         }
     }
 
     /*variantFilter { variant ->
-        if(variant.builtType.name.equals('test')) {
-            variant.setIgnore(true)
-        }
-    }*/
+         if(variant.builtType.name.equals('test')) {
+             variant.setIgnore(true)
+         }
+     }*/
 
     //flavorDimensions "market"
 
     /*productFlavours {
-        de {
-            applicationId "com.kavin.artgallery.de"
-            if (releaseID == "yes") {
-                applicationId "com.kvn.artgallery.de"
-                mapsApiVal = properties.getProperty("google_maps_api_key_de")
-                manifestPlaceholder = [MAPS_API_KEY: mapsApiVal]
-            }
-            buildConfigField "String", "FLAVOR_ID", "\"SG\""
-            versionCode 5
-            versionName "5.0"
-            dimension "market"
-        }
-        bt {
-            applicationId "com.kavin.artgallery.bt"
-            if (releaseID == "yes") {
-                applicationId "com.kvn.artgallery.bt"
-                mapsApiVal = properties.getProperty("google_maps_api_key_de")
-                manifestPlaceholder = [MAPS_API_KEY: mapsApiVal]
-            }
-            buildConfigField "String", "FLAVOR_ID", "\"BT\""
-            versionCode 5
-            versionName "5.0"
-            dimension "market"
-        }
-    }*/
+         de {
+             applicationId "com.kavin.artgallery.de"
+             if (releaseID == "yes") {
+                 applicationId "com.kvn.artgallery.de"
+                 mapsApiVal = properties.getProperty("google_maps_api_key_de")
+                 manifestPlaceholder = [MAPS_API_KEY: mapsApiVal]
+             }
+             buildConfigField "String", "FLAVOR_ID", "\"SG\""
+             versionCode 5
+             versionName "5.0"
+             dimension "market"
+         }
+         bt {
+             applicationId "com.kavin.artgallery.bt"
+             if (releaseID == "yes") {
+                 applicationId "com.kvn.artgallery.bt"
+                 mapsApiVal = properties.getProperty("google_maps_api_key_de")
+                 manifestPlaceholder = [MAPS_API_KEY: mapsApiVal]
+             }
+             buildConfigField "String", "FLAVOR_ID", "\"BT\""
+             versionCode 5
+             versionName "5.0"
+             dimension "market"
+         }
+     }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -116,32 +122,32 @@ android {
         test.java.srcDirs += "src/test-common/java"
 
        /* main {
-            res.srcDirs = ['src/main/res', 'res/main/libs']
-            assets.srcDirs = ['src/main/assets', 'res/main/assets/']
-        }
-        de {
-            res.srcDirs = ['src/de/res']
-        }
-        bt {
-            res.srcDirs = ['src/bt/res']
-        }*/
+             res.srcDirs = ['src/main/res', 'res/main/libs']
+             assets.srcDirs = ['src/main/assets', 'res/main/assets/']
+         }
+         de {
+             res.srcDirs = ['src/de/res']
+         }
+         bt {
+             res.srcDirs = ['src/bt/res']
+         }*/
     }
 
     /*gradle.taskGraph.beforeTask { Task task ->
-        if(task.name ==~ /process.*GoogleServices/) {
-            android.applicationVariants.every { variant ->
-                def currentFlavourName = variant.productFlavours.get(0).name.toUpperCase()
-                def currentBuildType = variant.buildType.name
-                doFCMChange(currentFlavourName, currentBuildType)
-            }
+         if(task.name ==~ /process.*GoogleServices/) {
+             android.applicationVariants.every { variant ->
+                 def currentFlavourName = variant.productFlavours.get(0).name.toUpperCase()
+                 def currentBuildType = variant.buildType.name
+                 doFCMChange(currentFlavourName, currentBuildType)
+             }
+         }
+     }*/
+
+    /*afterEvaluate {
+        applicationVariants.all { variant ->
+
         }
     }*/
-
-   /*afterEvaluate {
-       applicationVariants.all { variant ->
-
-       }
-   }*/
     buildFeatures {
         buildConfig = true
         viewBinding = true
@@ -154,54 +160,54 @@ android {
 ext.cleanOutput = { outfileVal, isZipAligned ->
     /*File outFile = outfileVal.outputFile
     if(isZipAligned && (outFile.getName().contains("unsigned"))
-        || (outFile.getName().contains("unaligned")
-        && !outFile.getName().contains("release"))) {
-        println "deleting " + outFile.getName()
-        outFile.delete()
-    }
-    if (invalidateBuildVariant) {
-        File fileAPK = outFile.outputFile
-        println "\n*************************\nDeleting invalid apk due to missing dynamic configuration for " +
-                "$output.baseName " + fileAPK.getName()
-        fileAPK.delete()
-    }*/
+         || (outFile.getName().contains("unaligned")
+         && !outFile.getName().contains("release"))) {
+         println "deleting " + outFile.getName()
+         outFile.delete()
+     }
+     if (invalidateBuildVariant) {
+         File fileAPK = outFile.outputFile
+         println "\n*************************\nDeleting invalid apk due to missing dynamic configuration for " +
+                 "$output.baseName " + fileAPK.getName()
+         fileAPK.delete()
+     }*/
 }
 
 def doFCMChange(currentFlavorName, currentBuildType) {
     /*def TRGT_FCM_DIR = "./"
-    // remove google-services.json if exist
-    File fileFcmif = file(TRGT_FCM_DIR)
-    if (fileFcmif.exists()) {
-        for(File file : fileFcmif.listFiles()) {
-            def fNametemp = file.getName()
-            if(file.getName() == 'google-services.json') {
-                def fName = file.getName()
-                println "\n Deleting $Name"
-                file.delete()
-                break
-            }
-        }
-    }
+     // remove google-services.json if exist
+     File fileFcmif = file(TRGT_FCM_DIR)
+     if (fileFcmif.exists()) {
+         for(File file : fileFcmif.listFiles()) {
+             def fNametemp = file.getName()
+             if(file.getName() == 'google-services.json') {
+                 def fName = file.getName()
+                 println "\n Deleting $Name"
+                 file.delete()
+                 break
+             }
+         }
+     }
 
-    def FCM_CONFIG_PATH = '../env' + currentFlavorName + '/release/fcm_config'
-    switch (currentBuildType) {
-        case "release":
-            break
-        default:
-            FCM_CONFIG_PATH = '../env' + currentFlavorName + '/dev/fcm_config'
-            break
-    }
+     def FCM_CONFIG_PATH = '../env' + currentFlavorName + '/release/fcm_config'
+     switch (currentBuildType) {
+         case "release":
+             break
+         default:
+             FCM_CONFIG_PATH = '../env' + currentFlavorName + '/dev/fcm_config'
+             break
+     }
 
-    File fileFcmConfig = file(FCM_CONFIG_PATH)
-    if(!fileFcmConfig.exists()) {
-        logger.error("ERROR : FileNotFound $FCM_CONFIG_PATH not found for given environment. " +
-                "\n Aborting build. Please update config and start build again...")
-    }
+     File fileFcmConfig = file(FCM_CONFIG_PATH)
+     if(!fileFcmConfig.exists()) {
+         logger.error("ERROR : FileNotFound $FCM_CONFIG_PATH not found for given environment. " +
+                 "\n Aborting build. Please update config and start build again...")
+     }
 
-    copy {
-        from FCM_CONFIG_PATH
-        into TRGT_FCM_DIR
-    }*/
+     copy {
+         from FCM_CONFIG_PATH
+         into TRGT_FCM_DIR
+     }*/
 }
 
 dependencies {
