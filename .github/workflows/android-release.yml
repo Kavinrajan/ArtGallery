@@ -12,17 +12,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
           cache: gradle
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
         with:
           cmdline-tools-version: 11076708
           packages: |
@@ -31,9 +31,15 @@ jobs:
             build-tools;35.0.0
 
       - name: Decode keystore
+        shell: bash
         run: |
           echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > app/release-keystore.jks
+
+      - name: Verify keystore
         shell: bash
+        run: |
+          test -f app/release-keystore.jks
+          ls -lh app/release-keystore.jks
 
       - name: Grant permission for Gradle wrapper
         run: chmod +x ./gradlew
