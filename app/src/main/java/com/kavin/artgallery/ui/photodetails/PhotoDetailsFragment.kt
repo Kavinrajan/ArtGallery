@@ -17,10 +17,12 @@ package com.kavin.artgallery.ui.photodetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.request.ImageRequest
 import com.kavin.artgallery.base.BaseFragment
 import com.kavin.artgallery.databinding.PhotoDetailsFragmentBinding
 import com.kavin.artgallery.model.PhotoModel
@@ -37,7 +39,7 @@ class PhotoDetailsFragment : BaseFragment<PhotoDetailsFragmentBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        var photo = arguments?.getParcelable<PhotoModel>("photo")
+        val photo = arguments?.getParcelable<PhotoModel>("photo")
         if (photo == null) {
             findNavController().popBackStack()
             return
@@ -49,12 +51,33 @@ class PhotoDetailsFragment : BaseFragment<PhotoDetailsFragmentBinding>() {
         viewModel.initPhotoModel(photo)
     }
 
-    fun setupViews() {
+    private fun setupViews() {
+        bi.imageLoader.visibility = View.VISIBLE
+        bi.photoView.alpha = 0f
     }
 
-    fun initObservations() {
+    private fun initObservations() {
         viewModel.photoModelLiveData.observe(viewLifecycleOwner) { photo ->
-            bi.photoView.load(photo.urls?.full)
+            bi.photoView.load(photo.urls?.full) {
+                crossfade(true)
+                crossfade(200)
+                placeholder(android.R.color.transparent)
+                error(android.R.drawable.ic_menu_report_image)
+                listener(
+                    onStart = {
+                        bi.imageLoader.visibility = View.VISIBLE
+                        bi.photoView.alpha = 0f
+                    },
+                    onSuccess = { _, _ ->
+                        bi.imageLoader.visibility = View.GONE
+                        bi.photoView.animate().alpha(1f).setDuration(250).start()
+                    },
+                    onError = { _, _ ->
+                        bi.imageLoader.visibility = View.GONE
+                        bi.photoView.alpha = 1f
+                    }
+                )
+            }
         }
     }
 }
