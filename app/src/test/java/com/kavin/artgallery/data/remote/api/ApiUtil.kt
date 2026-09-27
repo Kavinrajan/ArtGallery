@@ -1,4 +1,4 @@
-package com.com.kavin.artgallery.data.remote.api
+package com.kavin.artgallery.data.remote.api
 
 import com.kavin.artgallery.data.remote.ApiResponse
 import retrofit2.Response

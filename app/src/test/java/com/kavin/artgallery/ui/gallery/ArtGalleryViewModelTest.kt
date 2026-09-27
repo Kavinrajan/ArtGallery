@@ -1,16 +1,13 @@
-package com.com.kavin.artgallery.ui.gallery
+package com.kavin.artgallery.ui.gallery
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.MockTestUtil
-import com.com.kavin.artgallery.MainCoroutinesRule
+import com.kavin.artgallery.MockTestUtil
+import com.kavin.artgallery.MainCoroutinesRule
 import com.kavin.artgallery.data.DataState
 import com.kavin.artgallery.data.usecases.GetPopularPhotosUsecase
 import com.kavin.artgallery.data.usecases.SearchPhotosUsecase
 import com.kavin.artgallery.model.PhotoModel
-import com.kavin.artgallery.ui.gallery.ContentState
-import com.kavin.artgallery.ui.gallery.GalleryUiState
-import com.kavin.artgallery.ui.gallery.GalleryViewModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf

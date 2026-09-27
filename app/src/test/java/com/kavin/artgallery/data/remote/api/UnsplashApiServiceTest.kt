@@ -1,6 +1,6 @@
-package com.com.kavin.artgallery.data.remote.api
+package com.kavin.artgallery.data.remote.api
 
-import com.com.kavin.artgallery.MainCoroutinesRule
+import com.kavin.artgallery.MainCoroutinesRule
 import com.kavin.artgallery.data.remote.ApiResponse
 import com.kavin.artgallery.data.remote.UnsplashApiService
 import kotlinx.coroutines.runBlocking

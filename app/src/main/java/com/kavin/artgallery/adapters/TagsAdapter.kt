@@ -13,7 +13,7 @@ class TagsAdapter(val onTagSelected: (tag: TagModel, position: Int) -> Unit) : R
     private val tagItems: ArrayList<TagModel> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
-        var binding = TagItemLayoutBinding.inflate(
+        val binding = TagItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false

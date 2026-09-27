@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-
-
 /*
 * This is an implementation of [ArtGalleryRepository] to handle communication with [UnsplashApiService] server.
 * */

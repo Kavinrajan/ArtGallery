@@ -21,14 +21,17 @@ class NetworkApiModule {
     @Provides
     fun provideOkhttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+        // Temporarily set to BODY to capture request/response for debugging Unsplash API
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         return OkHttpClient.Builder()
             .addInterceptor(logging)
             .addInterceptor { chain ->
-                val request = chain.request()
-                val newRquest = request.newBuilder().header("Authorization", AppConstants.API.API_KEY)
-                chain.proceed(newRquest.build())
+                val originalRequest = chain.request()
+                val newRequest = originalRequest.newBuilder()
+                    .header("Authorization", "Client-ID ${AppConstants.API.API_KEY}")
+                    .build()
+                chain.proceed(newRequest)
             }
             .build()
     }

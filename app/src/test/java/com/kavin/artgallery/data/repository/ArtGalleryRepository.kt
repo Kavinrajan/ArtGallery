@@ -1,14 +1,13 @@
-package com.com.kavin.artgallery.data.repository
+package com.kavin.artgallery.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.MockTestUtil
-import com.com.kavin.artgallery.MainCoroutinesRule
-import com.com.kavin.artgallery.data.remote.api.ApiUtil.successCall
+import com.kavin.artgallery.MainCoroutinesRule
+import com.kavin.artgallery.MockTestUtil
+import com.kavin.artgallery.data.remote.api.ApiUtil.successCall
 import com.kavin.artgallery.data.DataState
 import com.kavin.artgallery.data.remote.ApiResponse
 import com.kavin.artgallery.data.remote.UnsplashApiService
 import com.kavin.artgallery.data.remote.message
-import com.kavin.artgallery.data.repository.ArtGalleryRepositoryImpl
 import com.kavin.artgallery.model.PhotoModel
 import com.kavin.artgallery.utils.StringUtils
 import io.mockk.MockKAnnotations

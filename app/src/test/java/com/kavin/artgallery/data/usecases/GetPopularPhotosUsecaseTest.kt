@@ -1,9 +1,8 @@
-package com.com.kavin.artgallery.data.usecases
+package com.kavin.artgallery.data.usecases
 
-import com.MockTestUtil
+import com.kavin.artgallery.MockTestUtil
 import com.kavin.artgallery.data.DataState
 import com.kavin.artgallery.data.repository.ArtGalleryRepository
-import com.kavin.artgallery.data.usecases.GetPopularPhotosUsecase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
