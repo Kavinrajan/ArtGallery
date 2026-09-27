@@ -12,6 +12,8 @@ jobs:
 
     env:
       ORG_GRADLE_PROJECT_apiId: ${{ secrets.UNSPLASH_API_KEY }}
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
 
     steps:
       - name: Checkout repository
@@ -23,6 +25,16 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: gradle
+
+      - name: Set up Android SDK
+        shell: bash
+        run: |
+          if [ ! -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" ]; then
+            echo "Android SDK command-line tools not found at $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+            exit 1
+          fi
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses >/dev/null
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Grant permission for Gradle wrapper
         run: chmod +x ./gradlew
