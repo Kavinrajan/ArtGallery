@@ -71,6 +71,53 @@ The application follows **Clean Architecture + MVVM**, separating the applicatio
 
 ---
 
+## 🤖 AI Architecture Overview
+
+The repository now includes an optional AI layer that remains behind clean domain interfaces and uses graceful fallback behavior when on-device AI is unavailable.
+
+```text
+                    ArtGallery
+                        |
+                +-------+-------+
+                |               |
+            Unsplash          Local AI
+                |               |
+             Retrofit       Gemini Nano
+                |             AICore
+                |               |
+                |          ML Kit GenAI
+                |               |
+                +-------+-------+
+                        |
+                 Artwork Metadata
+                        |
+                   Embeddings
+                        |
+                 Vector Search
+                        |
+                  Local RAG
+                        |
+               AI Gallery Assistant
+                        |
+              +---------+---------+
+              |                   |
+        AppFunctions             A2A
+        Android MCP          Agent Workflow
+```
+
+### AI Capabilities
+
+* LLM Integration: AI generation is isolated behind domain abstractions and never called directly from UI or ViewModel code.
+* Gemini Nano / AICore: Platform-aware inference path with safe fallback when unsupported or model is not ready.
+* ML Kit GenAI: Local generation APIs are used where supported without forcing cloud credentials.
+* Prompt Engineering: Dedicated prompt builders structure system instructions, user inputs, and gallery context separately.
+* Embeddings: Artwork metadata is transformed into local vector representations for semantic search.
+* RAG: Relevant gallery context is retrieved locally before generating an answer.
+* AppFunctions / MCP: Experimental Android agent tools remain isolated behind a clean domain boundary.
+* A2A: Agent orchestration is modeled as application-level flows without claiming full protocol compliance.
+
+---
+
 ## 🛠️ Tech Stack
 
 | Category                 | Technology             |
