@@ -35,8 +35,13 @@ jobs:
 
       - name: Decode keystore
         shell: bash
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_FILE }}
         run: |
-          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > app/release-keystore.jks
+          mkdir -p app
+          printf '%s' "$KEYSTORE_B64" | base64 --decode > app/release-keystore.jks
+          ls -lh app/release-keystore.jks
+          test -s app/release-keystore.jks
 
       - name: Verify keystore
         shell: bash
