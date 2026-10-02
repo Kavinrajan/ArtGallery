@@ -33,7 +33,7 @@ jobs:
             echo "Android SDK command-line tools not found at $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
             exit 1
           fi
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses >/dev/null
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses 2>/dev/null || true
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Grant permission for Gradle wrapper
