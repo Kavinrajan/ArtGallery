@@ -1,299 +1,483 @@
-# 🎨 ArtGallery
+# 🎨 ArtGallery — AI-Integrated Android Gallery
 
-### Modern Android Gallery App built with Kotlin, MVVM, Clean Architecture & TDD
+> **Modern Android application demonstrating AI/LLM integration with Kotlin, Jetpack Compose, Clean Architecture, MVVM, RAG, embeddings, MCP/tool calling and scalable Android engineering practices.**
 
-ArtGallery is a modern **Android image gallery application** that consumes the **Unsplash API** to discover and display high-quality images.
+ArtGallery is a modern Android application originally built around image discovery using the Unsplash API and evolved into an **AI integration showcase for Android**.
 
-The project demonstrates production-oriented Android development practices including **MVVM, Clean Architecture, Kotlin Coroutines, Retrofit, OkHttp, Dependency Injection with Hilt, and Test-Driven Development (TDD)**.
+The project demonstrates how AI capabilities can be integrated into a maintainable Android architecture while keeping UI, business logic, networking, data access and AI orchestration separated.
 
----
-
-## 📱 Overview
-
-ArtGallery was created to demonstrate how to build a maintainable Android application using a clean separation of responsibilities and modern Android development patterns.
-
-The application communicates with the **Unsplash API**, retrieves image data, and presents the results through a clean and responsive Android UI.
-
-### ✨ Highlights
-
-* 🖼️ Browse images from Unsplash
-* 🌐 REST API integration
-* 🏗️ Clean Architecture
-* 🔄 MVVM architecture
-* ⚡ Kotlin Coroutines
-* 💉 Dependency Injection with Dagger Hilt
-* 🌍 Retrofit + OkHttp networking
-* 🧪 Test-Driven Development
-* 📦 Separation of presentation, domain, and data responsibilities
-* ♻️ Maintainable and testable codebase
+The repository combines **modern Android engineering practices with Generative AI concepts** including LLM integration, prompt engineering, Retrieval-Augmented Generation (RAG), embeddings, tool calling and Model Context Protocol (MCP) concepts.
 
 ---
 
-## 🏗️ Architecture
+## 🚀 Project Highlights
 
-The application follows **Clean Architecture + MVVM**, separating the application into logical layers.
+### Android Engineering
+
+* Kotlin
+* Android SDK
+* Jetpack Compose
+* MVVM
+* Clean Architecture
+* Repository Pattern
+* Kotlin Coroutines
+* Kotlin Flow
+* StateFlow
+* Dependency Injection with Hilt
+* Retrofit
+* OkHttp
+* REST API integration
+* Unit Testing / TDD
+* Gradle
+
+### AI / Generative AI
+
+* LLM Integration
+* Gemini / Generative AI APIs
+* Prompt Engineering
+* AI-safe DTO design
+* Structured LLM responses
+* Context-aware AI interactions
+* Retrieval-Augmented Generation (RAG)
+* Embeddings
+* Semantic retrieval
+* Context injection
+* Tool Calling
+* Model Context Protocol (MCP)
+* MCP-style tool server integration
+* AI Agent concepts
+* Agent orchestration
+* AI response validation
+* Error handling and fallback strategies
+
+---
+
+# 🤖 AI Integration Architecture
+
+The AI layer is designed as an independent part of the Android application rather than coupling AI logic directly to Compose screens or ViewModels.
 
 ```text
-┌─────────────────────────────────────────────┐
-│                 Presentation                │
-│                                             │
-│             UI / ViewModel                  │
-└──────────────────────┬──────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────┐
-│                   Domain                    │
-│                                             │
-│          Use Cases / Business Logic         │
-└──────────────────────┬──────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────┐
-│                    Data                     │
-│                                             │
-│     Repository / API / Network Models       │
-└──────────────────────┬──────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────┐
-│                Unsplash API                 │
-└─────────────────────────────────────────────┘
+                    ┌──────────────────────┐
+                    │     Jetpack Compose  │
+                    │          UI          │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │      ViewModel       │
+                    │   UI State / Events  │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │       Use Case       │
+                    │   Business Logic     │
+                    └──────────┬───────────┘
+                               │
+                ┌──────────────┴──────────────┐
+                ▼                             ▼
+      ┌──────────────────┐          ┌──────────────────┐
+      │   AI Repository  │          │ Gallery Repository│
+      └────────┬─────────┘          └────────┬─────────┘
+               │                             │
+               ▼                             ▼
+      ┌──────────────────┐          ┌──────────────────┐
+      │ AI Orchestrator  │          │  Unsplash API    │
+      └────────┬─────────┘          └──────────────────┘
+               │
+        ┌──────┼───────────┐
+        ▼      ▼           ▼
+     LLM     RAG        MCP Tools
+      │       │             │
+      │       ▼             ▼
+      │   Embeddings    Tool Calling
+      │       │
+      └───────┴──────────────┐
+                             ▼
+                    ┌──────────────────┐
+                    │ AI Response      │
+                    │ Validation       │
+                    └──────────────────┘
 ```
 
-### Architecture Benefits
-
-* Clear separation of concerns
-* Easier unit testing
-* Reduced coupling between layers
-* Better maintainability
-* Easier feature expansion
-* Reusable business logic
-
 ---
 
-## 🤖 AI Architecture Overview
+# 🧠 AI Capabilities
 
-The repository now includes an optional AI layer that remains behind clean domain interfaces and uses graceful fallback behavior when on-device AI is unavailable.
+## 1. LLM Integration
+
+The application demonstrates how an Android application can communicate with a Large Language Model through an API abstraction.
 
 ```text
-                    ArtGallery
-                        |
-                +-------+-------+
-                |               |
-            Unsplash          Local AI
-                |               |
-             Retrofit       Gemini Nano
-                |             AICore
-                |               |
-                |          ML Kit GenAI
-                |               |
-                +-------+-------+
-                        |
-                 Artwork Metadata
-                        |
-                   Embeddings
-                        |
-                 Vector Search
-                        |
-                  Local RAG
-                        |
-               AI Gallery Assistant
-                        |
-              +---------+---------+
-              |                   |
-        AppFunctions             A2A
-        Android MCP          Agent Workflow
-```
-
-### AI Capabilities
-
-* LLM Integration: AI generation is isolated behind domain abstractions and never called directly from UI or ViewModel code.
-* Gemini Nano / AICore: Platform-aware inference path with safe fallback when unsupported or model is not ready.
-* ML Kit GenAI: Local generation APIs are used where supported without forcing cloud credentials.
-* Prompt Engineering: Dedicated prompt builders structure system instructions, user inputs, and gallery context separately.
-* Embeddings: Artwork metadata is transformed into local vector representations for semantic search.
-* RAG: Relevant gallery context is retrieved locally before generating an answer.
-* AppFunctions / MCP: Experimental Android agent tools remain isolated behind a clean domain boundary.
-* A2A: Agent orchestration is modeled as application-level flows without claiming full protocol compliance.
-
----
-
-## 🛠️ Tech Stack
-
-| Category                 | Technology             |
-| ------------------------ | ---------------------- |
-| Language                 | **Kotlin**             |
-| Platform                 | **Android**            |
-| Architecture             | **MVVM**               |
-| Architecture Pattern     | **Clean Architecture** |
-| Networking               | **Retrofit**           |
-| HTTP Client              | **OkHttp**             |
-| Asynchronous Programming | **Kotlin Coroutines**  |
-| Dependency Injection     | **Dagger Hilt**        |
-| API                      | **Unsplash API**       |
-| Testing                  | **TDD / Unit Testing** |
-| Build System             | **Gradle**             |
-
----
-
-## 🔌 API Integration
-
-ArtGallery uses the **Unsplash API** to retrieve image and gallery data.
-
-```text
-Android Application
-        │
-        ▼
-   Repository
-        │
-        ▼
-    Retrofit
-        │
-        ▼
-     OkHttp
-        │
-        ▼
-  Unsplash REST API
-        │
-        ▼
-   JSON Response
-        │
-        ▼
-     Domain
-        │
-        ▼
-    ViewModel
-        │
-        ▼
-        UI
-```
-
-This separation keeps networking concerns isolated from the presentation layer.
-
----
-
-## 🔄 Application Flow
-
-```text
-User
- │
- ▼
-Android UI
- │
- ▼
+Android
+   │
+   ▼
 ViewModel
- │
- ▼
+   │
+   ▼
 Use Case
- │
- ▼
-Repository
- │
- ▼
-Retrofit / OkHttp
- │
- ▼
-Unsplash API
- │
- ▼
-Response Mapping
- │
- ▼
+   │
+   ▼
+AI Repository
+   │
+   ▼
+LLM Client
+   │
+   ▼
+Gemini / LLM API
+   │
+   ▼
+Structured Response
+   │
+   ▼
 Domain Model
- │
- ▼
-ViewModel State
- │
- ▼
-UI Update
+   │
+   ▼
+Compose UI
 ```
 
----
-
-## 🧪 Test-Driven Development
-
-Testing is an important part of the project.
-
-The application demonstrates a **TDD-oriented development approach**, helping ensure that business logic and application behavior remain reliable as the codebase evolves.
-
-### Testing Goals
-
-* Validate business logic
-* Verify ViewModel behavior
-* Test repository operations
-* Reduce regression issues
-* Improve code maintainability
-* Encourage loosely coupled components
+The LLM layer is isolated behind interfaces so that the underlying provider can be replaced without changing the presentation layer.
 
 ---
 
-## 💉 Dependency Injection
+# ✍️ Prompt Engineering
 
-The project uses **Dagger Hilt** for dependency injection.
+The project demonstrates structured prompting rather than sending uncontrolled user input directly to an LLM.
 
-Hilt helps manage dependencies such as:
+Example prompt flow:
 
 ```text
-ViewModel
-   │
-   ├── Use Case
-   │
-   └── Repository
-          │
-          └── API Service
-                 │
-                 └── Retrofit / OkHttp
+User Query
+    │
+    ▼
+Input Validation
+    │
+    ▼
+System Instructions
+    │
+    ▼
+Context
+    │
+    ▼
+User Request
+    │
+    ▼
+LLM
+    │
+    ▼
+Structured Response
 ```
 
-Benefits include:
+Prompt design considerations include:
 
-* Better testability
-* Reduced boilerplate
-* Centralized dependency management
-* Improved separation of concerns
-* Easier component replacement during testing
+* Clear system instructions
+* Context separation
+* Task-specific instructions
+* Output constraints
+* Grounding with retrieved information
+* Response validation
+* Handling malformed responses
+* Preventing unnecessary sensitive data from being sent to the model
 
 ---
 
-## ⚡ Kotlin Coroutines
+# 🔎 Retrieval-Augmented Generation (RAG)
 
-Kotlin Coroutines are used for asynchronous operations, particularly network-related work.
+RAG allows the application to retrieve relevant information before sending context to the LLM.
 
 ```text
-UI
- │
- ▼
-ViewModel
- │
- ▼
-Coroutine
- │
- ▼
-Repository
- │
- ▼
-Network Request
+User Query
+     │
+     ▼
+Query Processing
+     │
+     ▼
+Embedding Generation
+     │
+     ▼
+Similarity Search
+     │
+     ▼
+Relevant Context
+     │
+     ▼
+Prompt Construction
+     │
+     ▼
+LLM
+     │
+     ▼
+Grounded Response
 ```
 
-This allows network operations to execute asynchronously without blocking the main UI thread.
+Instead of relying only on the model's general knowledge, relevant application data can be retrieved and supplied as context.
+
+### Example
+
+```text
+Query:
+
+"Show me information about modern abstract artwork."
+```
+
+The system can:
+
+1. Convert the query into an embedding.
+2. Search available artwork metadata.
+3. Retrieve relevant records.
+4. Build a grounded prompt.
+5. Send the context to the LLM.
+6. Return a contextual response.
 
 ---
 
-## 📂 Project Structure
+# 🧮 Embeddings
 
-The project follows a layered Android architecture.
+Embeddings represent text or other supported content as numerical vectors.
+
+```text
+Artwork Description
+        │
+        ▼
+Embedding Model
+        │
+        ▼
+Vector Representation
+        │
+        ▼
+Similarity Search
+        │
+        ▼
+Relevant Artwork
+```
+
+Embeddings can support:
+
+* Semantic search
+* Similar-content retrieval
+* RAG
+* Context discovery
+* Recommendation scenarios
+
+---
+
+# 🔧 MCP / Tool Calling
+
+The AI integration also demonstrates the concepts behind **Model Context Protocol (MCP)** and tool-enabled AI workflows.
+
+Instead of allowing the LLM to directly access application internals, tools provide controlled operations.
+
+```text
+                 LLM
+                  │
+                  ▼
+            Tool Selection
+                  │
+        ┌─────────┼─────────┐
+        ▼         ▼         ▼
+   Search Art   Get Image  Get Details
+        │         │         │
+        └─────────┼─────────┘
+                  ▼
+            Tool Response
+                  │
+                  ▼
+                 LLM
+                  │
+                  ▼
+             Final Answer
+```
+
+Example conceptual tools:
+
+```text
+searchArtwork(query)
+
+getArtworkDetails(id)
+
+searchGallery(category)
+
+getRelatedArtwork(id)
+```
+
+The important architectural principle is that **tool access is explicitly defined and controlled**.
+
+---
+
+# 🧩 AI-safe DTO
+
+AI-facing data is separated from internal application/domain models.
+
+```text
+Domain Model
+     │
+     ▼
+AI Mapper
+     │
+     ▼
+AI-safe DTO
+     │
+     ▼
+LLM / AI Service
+```
+
+This helps prevent unnecessary application or sensitive fields from being included in an AI request.
+
+Example:
+
+```kotlin
+data class ArtworkAiContext(
+    val title: String,
+    val artist: String?,
+    val category: String?,
+    val description: String?
+)
+```
+
+The AI layer should receive only the information required for the requested operation.
+
+---
+
+# 🏦 Banking-Oriented AI Design Concepts
+
+Although ArtGallery is an independent portfolio application, the AI architecture demonstrates patterns that can be applied to banking and financial applications.
+
+Examples include:
+
+### Customer Support
+
+```text
+Customer Question
+       │
+       ▼
+RAG Retrieval
+       │
+       ▼
+Banking FAQ / Product Information
+       │
+       ▼
+LLM
+       │
+       ▼
+Contextual Response
+```
+
+### Transaction Assistance
+
+```text
+User Request
+     │
+     ▼
+Intent Detection
+     │
+     ▼
+Controlled Tool
+     │
+     ▼
+Transaction Information
+     │
+     ▼
+LLM
+     │
+     ▼
+User Response
+```
+
+### Important Banking Considerations
+
+* Never expose credentials or secrets to an LLM.
+* Minimize sensitive data sent to AI services.
+* Validate tool arguments.
+* Apply authorization before executing tools.
+* Validate AI responses.
+* Use deterministic APIs for financial operations.
+* Treat LLM output as untrusted input.
+* Provide fallback behaviour when AI services are unavailable.
+* Keep auditability and security separate from conversational AI.
+
+---
+
+# 🏗️ Android Architecture
+
+The application follows **Clean Architecture + MVVM**.
+
+```text
+┌─────────────────────────────┐
+│        Presentation         │
+│                             │
+│   Compose UI                │
+│   ViewModel                 │
+│   UI State                  │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│           Domain            │
+│                             │
+│   Use Cases                 │
+│   Domain Models             │
+│   Repository Interfaces     │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│            Data             │
+│                             │
+│   Repository Implementations│
+│   API Services              │
+│   DTOs                      │
+│   Mappers                   │
+└──────────────┬──────────────┘
+               │
+        ┌──────┴───────┐
+        ▼              ▼
+   Unsplash API     AI Services
+```
+
+---
+
+# 🛠️ Technology Stack
+
+| Category        | Technologies                     |
+| --------------- | -------------------------------- |
+| Language        | Kotlin                           |
+| Platform        | Android                          |
+| UI              | Jetpack Compose                  |
+| Architecture    | Clean Architecture, MVVM         |
+| State           | StateFlow, Kotlin Flow           |
+| Async           | Kotlin Coroutines                |
+| DI              | Dagger Hilt                      |
+| Networking      | Retrofit, OkHttp                 |
+| API             | REST, Unsplash API               |
+| AI              | LLM APIs, Gemini / Generative AI |
+| AI Architecture | RAG, Embeddings, Tool Calling    |
+| AI Integration  | MCP concepts, AI Agents          |
+| Prompting       | Prompt Engineering               |
+| Persistence     | Room where applicable            |
+| Testing         | Unit Testing, TDD                |
+| Build           | Gradle                           |
+| Version Control | Git / GitHub                     |
+| CI/CD           | GitHub Actions                   |
+
+---
+
+# 📂 Project Structure
 
 ```text
 ArtGallery/
 │
 ├── app/
-│   │
-│   ├── src/
-│   │   ├── main/
-│   │   │
-│   │   └── test/
-│   │
-│   └── ...
+│   └── src/
+│       ├── main/
+│       │   ├── java/
+│       │   │   └── ...
+│       │   │
+│       │   └── res/
+│       │
+│       └── test/
+│
+├── .github/
+│   └── workflows/
 │
 ├── gradle/
 │   └── wrapper/
@@ -308,186 +492,290 @@ ArtGallery/
 
 ---
 
-## 🚀 Getting Started
+# 🔄 Application Flow
 
-### Prerequisites
+```text
+User
+ │
+ ▼
+Jetpack Compose
+ │
+ ▼
+ViewModel
+ │
+ ▼
+Use Case
+ │
+ ├───────────────┐
+ ▼               ▼
+Gallery       AI Feature
+ │               │
+ ▼               ▼
+Repository    AI Repository
+ │               │
+ ▼               ├── LLM
+Unsplash API     ├── RAG
+                 ├── Embeddings
+                 └── Tools / MCP
+                         │
+                         ▼
+                  AI Response
+                         │
+                         ▼
+                    ViewModel
+                         │
+                         ▼
+                        UI
+```
 
-Make sure you have:
+---
+
+# 🧪 Testing Strategy
+
+The project follows a testable architecture with separation between UI, domain and data layers.
+
+Testing areas include:
+
+* ViewModel tests
+* Use Case tests
+* Repository tests
+* API response mapping
+* AI request/response mapping
+* Error handling
+* Input validation
+* Prompt construction
+* AI response parsing
+* Mocked AI service testing
+
+---
+
+# 🔐 AI Security Principles
+
+AI integration should be treated as an external/untrusted dependency.
+
+The project follows these design principles:
+
+* No API keys hardcoded in source code
+* Avoid sending unnecessary sensitive data
+* Validate user input
+* Validate AI output
+* Validate tool arguments
+* Apply authorization before sensitive operations
+* Use timeouts
+* Handle API failures
+* Implement graceful fallback behaviour
+* Keep business-critical decisions outside the LLM
+* Separate domain models from AI DTOs
+
+---
+
+# ⚡ Error Handling
+
+AI and network operations can fail for several reasons:
+
+```text
+User Request
+     │
+     ▼
+Validation
+     │
+     ▼
+AI Request
+     │
+     ├── Success ──────► Parse Response
+     │
+     ├── Timeout ───────► Retry / Fallback
+     │
+     ├── Network Error ─► Offline/Error State
+     │
+     ├── API Error ─────► Error Mapping
+     │
+     └── Invalid Output ► Validation Failure
+```
+
+The UI should never depend on an AI response being successful.
+
+---
+
+# 📡 API Integration
+
+The original ArtGallery functionality uses the Unsplash REST API.
+
+```text
+Compose UI
+    │
+    ▼
+ViewModel
+    │
+    ▼
+Use Case
+    │
+    ▼
+Repository
+    │
+    ▼
+Retrofit
+    │
+    ▼
+OkHttp
+    │
+    ▼
+Unsplash API
+```
+
+The same repository-based approach is extended for AI services so networking concerns remain isolated from the UI layer.
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
 
 * Android Studio
 * JDK
 * Android SDK
 * Git
-* A valid Unsplash API access key
+* Unsplash API credentials
+* AI provider credentials where required
 
----
-
-### 1️⃣ Clone the Repository
+## Clone
 
 ```bash
 git clone https://github.com/Kavinrajan/ArtGallery.git
-```
 
-```bash
 cd ArtGallery
 ```
 
----
+Open the project in Android Studio and allow Gradle synchronization to complete.
 
-### 2️⃣ Open in Android Studio
+## Build
 
-Open the project in **Android Studio** and allow Gradle to synchronize the project.
-
----
-
-### 3️⃣ Configure Unsplash API
-
-Create/configure your Unsplash API credentials according to the project's configuration.
-
-> ⚠️ Never commit private API keys or secrets directly into source control.
-
----
-
-### 4️⃣ Build the Project
+### macOS / Linux
 
 ```bash
 ./gradlew build
 ```
 
-For Windows:
+### Windows
 
 ```bash
 gradlew.bat build
 ```
 
----
-
-### 5️⃣ Run the Application
-
-Run the application from Android Studio on:
-
-* Android Emulator
-* Physical Android Device
+> Never commit API keys, tokens or other secrets to the repository.
 
 ---
 
-## 🎯 Engineering Practices Demonstrated
-
-This project demonstrates practical knowledge of:
-
-```text
-Kotlin
-      ↓
-Android Development
-      ↓
-MVVM
-      ↓
-Clean Architecture
-      ↓
-Repository Pattern
-      ↓
-REST API Integration
-      ↓
-Retrofit + OkHttp
-      ↓
-Coroutines
-      ↓
-Dependency Injection
-      ↓
-Dagger Hilt
-      ↓
-Unit Testing / TDD
-```
-
----
-
-## 💡 Why This Project?
-
-The purpose of ArtGallery is to demonstrate how a real-world Android application can be structured for:
-
-**Maintainability → Testability → Scalability → Separation of Concerns**
-
-Rather than putting API calls and business logic directly inside UI components, the application separates responsibilities across architectural layers.
-
----
-
-## 🔮 Future Improvements
-
-Potential improvements for the project include:
-
-* [ ] Jetpack Compose UI
-* [ ] Paging 3 integration
-* [ ] Offline caching
-* [ ] Room database
-* [ ] Image caching
-* [ ] Search and filtering
-* [ ] Favorites
-* [ ] Dark mode
-* [ ] UI tests
-* [ ] CI/CD with GitHub Actions
-* [ ] Modularized architecture
-* [ ] Kotlin Flow-based state management
-
----
-
-## 📊 Skills Demonstrated
+# 🎯 Skills Demonstrated
 
 ### Android
 
-* Android SDK
 * Kotlin
+* Android SDK
+* Jetpack Compose
 * MVVM
 * Clean Architecture
 * Repository Pattern
-* Dependency Injection
+* Hilt
 * Coroutines
+* Flow / StateFlow
 
 ### Networking
 
 * REST APIs
 * Retrofit
 * OkHttp
-* JSON data handling
+* JSON serialization
+* Error handling
+
+### Generative AI
+
+* LLM integration
+* Gemini / Generative AI
+* Prompt Engineering
+* RAG
+* Embeddings
+* Semantic retrieval
+* Tool Calling
+* MCP
+* AI Agent concepts
+* Structured AI responses
+* AI-safe DTOs
 
 ### Software Engineering
 
 * SOLID principles
 * Separation of concerns
+* Dependency inversion
 * Testability
 * TDD
-* Maintainable architecture
+* Error handling
+* Secure API integration
+* Scalable architecture
 
 ---
 
-## 👨‍💻 Author
+# 💼 Portfolio / Interview Relevance
 
-### Kavinrajan S M
+ArtGallery demonstrates how a senior Android engineer can extend an existing mobile architecture with AI capabilities without coupling AI functionality directly to the UI.
 
-**Senior Android Developer**
+The architecture provides a foundation for integrating AI into domains such as:
 
-Focused on:
+* Banking
+* Financial Services
+* Healthcare
+* E-commerce
+* Customer Support
+* Enterprise applications
+
+The same patterns can be adapted for:
 
 ```text
-Android Development
-Kotlin
-Jetpack Compose
-Kotlin Multiplatform
-Clean Architecture
-AI/ML Integration
-Backend Development
-DevOps & CI/CD
+LLM APIs
+   +
+RAG
+   +
+Embeddings
+   +
+Tool Calling
+   +
+MCP
+   +
+Android Clean Architecture
+   =
+AI-enabled Mobile Applications
 ```
 
 ---
 
-## ⭐ Support
+# 👨‍💻 Author
 
-If you find this project useful or interesting, consider giving the repository a ⭐ **Star**.
+**Kavinrajan S M**
 
-It helps support continued learning and development.
+Senior Android Developer
+
+Areas of focus:
+
+* Native Android Development
+* Kotlin
+* Jetpack Compose
+* Clean Architecture
+* AI/ML Integration
+* LLM Integration
+* Generative AI
+* Backend Development
+* DevOps / CI/CD
+
+---
+
+# ⭐ Project Purpose
+
+This repository is maintained as a **technical learning, experimentation and portfolio project** demonstrating modern Android engineering and AI integration patterns.
+
+It is intended to showcase architectural understanding and implementation patterns rather than represent a production banking system.
 
 ---
 
 ## 📄 License
 
-This project is intended for **learning, experimentation, and portfolio demonstration**.
+This project is intended for learning, experimentation and portfolio demonstration.
